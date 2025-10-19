@@ -8,6 +8,10 @@ import { AppSidebar } from "@/components/AppSidebar";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
+import SMPForecast from "./pages/SMPForecast";
+import RTSForecast from "./pages/RTSForecast";
+import Bidding from "./pages/Bidding";
+import Settings from "./pages/Settings";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +44,10 @@ const App = () => (
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<AppLayout><Dashboard /></AppLayout>} />
+          <Route path="/smp-forecast" element={<AppLayout><SMPForecast /></AppLayout>} />
+          <Route path="/rts-forecast" element={<AppLayout><RTSForecast /></AppLayout>} />
+          <Route path="/bidding" element={<AppLayout><Bidding /></AppLayout>} />
+          <Route path="/settings" element={<AppLayout><Settings /></AppLayout>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
