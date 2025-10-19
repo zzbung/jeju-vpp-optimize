@@ -18,7 +18,7 @@ const Login = () => {
     if (username && password) {
       toast({
         title: "로그인 성공",
-        description: "KOMIPO VPP 플랫폼에 오신 것을 환영합니다.",
+        description: "RTSnSMP Prediction System에 오신 것을 환영합니다.",
       });
       navigate("/");
     } else {
@@ -42,7 +42,7 @@ const Login = () => {
           <div className="inline-flex h-16 w-16 rounded-2xl bg-gradient-primary mb-4 items-center justify-center">
             <div className="h-12 w-12 rounded-xl bg-background/20" />
           </div>
-          <h1 className="text-3xl font-bold text-foreground mb-2">KOMIPO VPP</h1>
+          <h1 className="text-3xl font-bold text-foreground mb-2">RTSnSMP Prediction System</h1>
           <p className="text-muted-foreground">RTS & SMP 예측·입찰 최적화 플랫폼</p>
         </div>
 

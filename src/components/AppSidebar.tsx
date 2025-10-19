@@ -33,7 +33,7 @@ export function AppSidebar() {
               <>
                 <div className="h-8 w-8 rounded-lg bg-gradient-primary" />
                 <div className="flex flex-col">
-                  <span className="text-sm font-semibold text-foreground">KOMIPO VPP</span>
+                  <span className="text-sm font-semibold text-foreground">RTSnSMP Prediction System</span>
                   <span className="text-xs text-muted-foreground">제주 독립계통</span>
                 </div>
               </>
