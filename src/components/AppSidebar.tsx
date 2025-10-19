@@ -1,5 +1,6 @@
 import { LayoutDashboard, TrendingUp, Zap, FileText, Settings } from "lucide-react";
 import { NavLink } from "react-router-dom";
+import komipoLogo from "@/assets/komipo-logo.png";
 import {
   Sidebar,
   SidebarContent,
@@ -28,17 +29,12 @@ export function AppSidebar() {
     <Sidebar collapsible="icon" className="border-r border-border">
       <SidebarContent>
         <div className="px-6 py-4">
-          <div className="flex items-center gap-2">
-            {!isCollapsed && (
-              <>
-                <div className="h-8 w-8 rounded-lg bg-gradient-primary" />
-                <div className="flex flex-col">
-                  <span className="text-sm font-semibold text-foreground">RTSnSMP Prediction System</span>
-                  <span className="text-xs text-muted-foreground">제주 독립계통</span>
-                </div>
-              </>
+          <div className="flex items-center justify-center">
+            {!isCollapsed ? (
+              <img src={komipoLogo} alt="KOMIPO RTS&SMP" className="h-12 w-auto" />
+            ) : (
+              <img src={komipoLogo} alt="KOMIPO RTS&SMP" className="h-8 w-auto" />
             )}
-            {isCollapsed && <div className="h-8 w-8 rounded-lg bg-gradient-primary mx-auto" />}
           </div>
         </div>
 
