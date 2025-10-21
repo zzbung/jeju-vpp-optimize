@@ -31,9 +31,9 @@ export function AppSidebar() {
         <div className="px-6 py-4">
           <div className="flex items-center justify-center">
             {!isCollapsed ? (
-              <img src={komipoLogo} alt="KOMIPO RTS&SMP" className="h-40 w-auto" />
+              <img src={komipoLogo} alt="KOMIPO RTS&SMP" className="h-60 w-auto" />
             ) : (
-              <img src={komipoLogo} alt="KOMIPO RTS&SMP" className="h-16 w-auto" />
+              <img src={komipoLogo} alt="KOMIPO RTS&SMP" className="h-24 w-auto" />
             )}
           </div>
         </div>
