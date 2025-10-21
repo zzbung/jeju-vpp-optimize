@@ -28,10 +28,10 @@ export function AppSidebar() {
   return (
     <Sidebar collapsible="icon" className="border-r border-border">
       <SidebarContent>
-        <div className="px-6 py-8">
+        <div className="px-6 py-4">
           <div className="flex items-center justify-center">
             {!isCollapsed ? (
-              <img src={komipoLogo} alt="KOMIPO RTS&SMP" className="h-32 w-auto" />
+              <img src={komipoLogo} alt="KOMIPO RTS&SMP" className="h-40 w-auto" />
             ) : (
               <img src={komipoLogo} alt="KOMIPO RTS&SMP" className="h-16 w-auto" />
             )}
