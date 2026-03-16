@@ -13,6 +13,7 @@ import SMPForecast from "./pages/SMPForecast";
 import RTSForecast from "./pages/RTSForecast";
 import Bidding from "./pages/Bidding";
 import Settings from "./pages/Settings";
+import MaxOutputForecast from "./pages/MaxOutputForecast";
 
 const queryClient = new QueryClient();
 
@@ -47,6 +48,7 @@ const App = () =>
           <Route path="/" element={<AppLayout><Dashboard /></AppLayout>} />
           <Route path="/smp-forecast" element={<AppLayout><SMPForecast /></AppLayout>} />
           <Route path="/rts-forecast" element={<AppLayout><RTSForecast /></AppLayout>} />
+          <Route path="/max-output-forecast" element={<AppLayout><MaxOutputForecast /></AppLayout>} />
           <Route path="/bidding" element={<AppLayout><Bidding /></AppLayout>} />
           <Route path="/settings" element={<AppLayout><Settings /></AppLayout>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
