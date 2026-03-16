@@ -9,7 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import SMPForecast from "./pages/SMPForecast";
-import RTSForecast from "./pages/RTSForecast";
+import MaxOutputForecast from "./pages/MaxOutputForecast";
 import Bidding from "./pages/Bidding";
 import Settings from "./pages/Settings";
 
