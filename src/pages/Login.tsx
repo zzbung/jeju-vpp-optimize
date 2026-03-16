@@ -40,7 +40,7 @@ const Login = () => {
 
       <Card className="w-full max-w-md p-8 relative z-10 border-border/50 shadow-glow-primary">
         <div className="mb-8 text-center">
-          <div className="mb-6 flex justify-center max-w-xl mx-auto">
+          <div className="mb-6 flex justify-center max-w-xs mx-auto">
             <img src={komipoLogo} alt="KOMIPO RTS&SMP" className="w-full h-auto object-contain" />
           </div>
           <p className="text-muted-foreground">RTS & SMP 예측·입찰 최적화 플랫폼</p>
