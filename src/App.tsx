@@ -1,5 +1,4 @@
 import { Toaster } from "@/components/ui/toaster";
-import komipoLogo from "@/assets/komipo-logo.png";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -10,22 +9,22 @@ import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import SMPForecast from "./pages/SMPForecast";
-import MaxOutputForecast from "./pages/MaxOutputForecast";
+import RTSForecast from "./pages/RTSForecast";
 import Bidding from "./pages/Bidding";
 import Settings from "./pages/Settings";
 
 const queryClient = new QueryClient();
 
-const AppLayout = ({ children }: { children: React.ReactNode }) => (
-  <SidebarProvider>
+const AppLayout = ({ children }: {children: React.ReactNode;}) =>
+<SidebarProvider>
     <div className="min-h-screen flex w-full">
       <AppSidebar />
       <div className="flex-1 flex flex-col">
-        <header className="h-20 border-b border-border flex items-center px-4 bg-card/50 backdrop-blur-sm sticky top-0 z-10">
+        <header className="h-14 border-b border-border flex items-center px-4 bg-card/50 backdrop-blur-sm sticky top-0 z-10">
           <SidebarTrigger />
-          <div className="ml-4 flex items-center gap-3">
-            <img src={komipoLogo} alt="KOMIPO" className="h-14 w-auto object-contain" />
-            <span className="font-semibold text-foreground text-lg">제주 독립계통 실증</span>
+          <div className="ml-4 flex items-center gap-2">
+            <div className="h-8 w-8 rounded-lg bg-gradient-primary" />
+            
           </div>
         </header>
         <main className="flex-1">
@@ -33,11 +32,11 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => (
         </main>
       </div>
     </div>
-  </SidebarProvider>
-);
+  </SidebarProvider>;
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
+
+const App = () =>
+<QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
@@ -46,7 +45,7 @@ const App = () => (
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<AppLayout><Dashboard /></AppLayout>} />
           <Route path="/smp-forecast" element={<AppLayout><SMPForecast /></AppLayout>} />
-          <Route path="/max-output-forecast" element={<AppLayout><MaxOutputForecast /></AppLayout>} />
+          <Route path="/rts-forecast" element={<AppLayout><RTSForecast /></AppLayout>} />
           <Route path="/bidding" element={<AppLayout><Bidding /></AppLayout>} />
           <Route path="/settings" element={<AppLayout><Settings /></AppLayout>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
@@ -54,7 +53,7 @@ const App = () => (
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
-  </QueryClientProvider>
-);
+  </QueryClientProvider>;
+
 
 export default App;
