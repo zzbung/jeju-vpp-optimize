@@ -3,7 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, ScatterChart, Scatter } from "recharts";
 import { Zap, Thermometer, TrendingUp, BarChart3 } from "lucide-react";
 import tempCorrectionImg from "@/assets/temperature-correction.png";
 import maxOutputImg from "@/assets/max-output-prediction.png";
@@ -125,70 +125,126 @@ const MaxOutputForecast = () => {
         </TabsList>
 
         <TabsContent value="plants" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>발전기별 최대출력 예측 현황</CardTitle>
-              <CardDescription>기온보정 적용 후 각 발전기의 최대출력 예측값</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>발전기</TableHead>
-                    <TableHead>정격 용량</TableHead>
-                    <TableHead>보정 최대출력</TableHead>
-                    <TableHead>현재 기온</TableHead>
-                    <TableHead>기준 기온</TableHead>
-                    <TableHead>보정량</TableHead>
-                    <TableHead>신뢰도</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {plantData.map((plant) => (
-                    <TableRow key={plant.id}>
-                      <TableCell className="font-medium">{plant.name}</TableCell>
-                      <TableCell>{plant.capacity} MW</TableCell>
-                      <TableCell className="text-primary font-semibold">{plant.correctedMax} MW</TableCell>
-                      <TableCell>{plant.currentTemp}°C</TableCell>
-                      <TableCell>{plant.referenceTemp}°C</TableCell>
-                      <TableCell>
-                        <Badge variant={plant.correction < 0 ? "destructive" : "default"}>
-                          {plant.correction > 0 ? "+" : ""}{plant.correction} MW
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex items-center gap-2">
-                          <Progress value={plant.confidence} className="w-20" />
-                          <span className="text-sm text-muted-foreground">{plant.confidence}%</span>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
+          {/* 발전기별 최대출력 예측 차트 (참조: 복합발전최대출력예측_그래프) */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {plantData.map((plant) => {
+              // 각 발전기별 시간대 출력 데이터 생성
+              const plantHourly = Array.from({ length: 24 }, (_, i) => {
+                const isOff = i >= 13 && i <= 18;
+                const base = plant.correctedMax;
+                return {
+                  hour: `${i.toString().padStart(2, '0')}:00`,
+                  predicted: isOff ? 0 : base + Math.sin(i * 0.2) * 5,
+                  bid: isOff ? 0 : base - 5 + Math.sin(i * 0.2) * 3,
+                  actual: i <= 12 ? (isOff ? 0 : base - 10 + Math.random() * 20) : undefined,
+                };
+              });
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {plantData.map((plant) => (
-              <Card key={plant.id}>
-                <CardHeader>
-                  <CardTitle className="text-lg">{plant.name}</CardTitle>
-                  <CardDescription>{plant.id}</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">보정 출력</span>
-                    <span className="font-semibold">{plant.correctedMax}/{plant.capacity} MW</span>
-                  </div>
-                  <Progress value={(plant.correctedMax / plant.capacity) * 100} />
-                  <div className="flex justify-between items-center pt-2 border-t border-border">
-                    <span className="text-sm text-muted-foreground">기온 보정</span>
-                    <span className="text-sm font-medium text-destructive">{plant.correction} MW</span>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+              return (
+                <Card key={plant.id}>
+                  <CardHeader>
+                    <CardTitle className="text-lg">{plant.name} 최대출력예측 vs 발전량</CardTitle>
+                    <CardDescription>
+                      정격 {plant.capacity} MW · 보정 {plant.correctedMax} MW · 기온 {plant.currentTemp}°C
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <ResponsiveContainer width="100%" height={280}>
+                      <LineChart data={plantHourly} margin={{ top: 5, right: 10, left: -10, bottom: 0 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                        <XAxis
+                          dataKey="hour"
+                          stroke="hsl(var(--muted-foreground))"
+                          tick={{ fontSize: 10, fill: 'hsl(var(--muted-foreground))' }}
+                          interval={3}
+                        />
+                        <YAxis
+                          stroke="hsl(var(--muted-foreground))"
+                          tick={{ fontSize: 10, fill: 'hsl(var(--muted-foreground))' }}
+                          domain={[-20, plant.capacity + 20]}
+                          label={{ value: 'MW', angle: -90, position: 'insideLeft', fill: 'hsl(var(--muted-foreground))', fontSize: 11 }}
+                        />
+                        <Tooltip
+                          contentStyle={{
+                            backgroundColor: 'hsl(var(--card))',
+                            borderColor: 'hsl(var(--border))',
+                            color: 'hsl(var(--foreground))',
+                            fontSize: 12,
+                          }}
+                          formatter={(value: number | undefined) => value != null ? [`${value.toFixed(0)} MW`] : ['-']}
+                        />
+                        <Legend wrapperStyle={{ fontSize: 12 }} />
+                        <Line type="monotone" dataKey="predicted" stroke="hsl(210 90% 55%)" strokeWidth={2} name="예측발전량" dot={false} />
+                        <Line type="monotone" dataKey="bid" stroke="hsl(var(--success))" strokeWidth={2} name="입찰발전량" dot={false} />
+                        <Line type="monotone" dataKey="actual" stroke="hsl(var(--foreground))" strokeWidth={2.5} name="실측발전량" dot={false} connectNulls={false} />
+                      </LineChart>
+                    </ResponsiveContainer>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+
+          {/* 발전기별 기온보정 산점도 (참조: 기온보정_그래프) */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {plantData.map((plant) => {
+              // 기온 보정 전/후 산점도 데이터 생성
+              const scatterBefore = Array.from({ length: 80 }, () => {
+                const brcc = Math.random() * 35 + 2;
+                const ldaps = brcc + (Math.random() - 0.5) * 10;
+                return { brcc: +brcc.toFixed(1), ldaps: +ldaps.toFixed(1) };
+              });
+              const scatterAfter = Array.from({ length: 80 }, () => {
+                const brcc = Math.random() * 35 + 2;
+                const ldaps = brcc + (Math.random() - 0.5) * 6;
+                return { brcc: +brcc.toFixed(1), ldaps: +ldaps.toFixed(1) };
+              });
+
+              return (
+                <Card key={`correction-${plant.id}`}>
+                  <CardHeader>
+                    <CardTitle className="text-lg">{plant.name} 기온 보정 전/후</CardTitle>
+                    <CardDescription>BRCC 기온 관측값 vs LDAPS 기온</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-2 gap-4">
+                      {/* 보정 전 */}
+                      <div>
+                        <p className="text-sm font-medium text-center mb-2 text-muted-foreground">보정 전</p>
+                        <ResponsiveContainer width="100%" height={200}>
+                          <ScatterChart margin={{ top: 5, right: 5, left: -15, bottom: 5 }}>
+                            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                            <XAxis type="number" dataKey="brcc" name="BRCC" tick={{ fontSize: 9, fill: 'hsl(var(--muted-foreground))' }} stroke="hsl(var(--muted-foreground))" />
+                            <YAxis type="number" dataKey="ldaps" name="LDAPS" tick={{ fontSize: 9, fill: 'hsl(var(--muted-foreground))' }} stroke="hsl(var(--muted-foreground))" />
+                            <Tooltip contentStyle={{ backgroundColor: 'hsl(var(--card))', borderColor: 'hsl(var(--border))', color: 'hsl(var(--foreground))', fontSize: 11 }} />
+                            <Scatter data={scatterBefore} fill="hsl(210 90% 55%)" fillOpacity={0.6} r={3} />
+                          </ScatterChart>
+                        </ResponsiveContainer>
+                        <div className="text-center text-xs text-muted-foreground mt-1">
+                          RMSE: 3.47 · MAE: 2.93
+                        </div>
+                      </div>
+                      {/* 보정 후 */}
+                      <div>
+                        <p className="text-sm font-medium text-center mb-2 text-muted-foreground">보정 후</p>
+                        <ResponsiveContainer width="100%" height={200}>
+                          <ScatterChart margin={{ top: 5, right: 5, left: -15, bottom: 5 }}>
+                            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                            <XAxis type="number" dataKey="brcc" name="BRCC" tick={{ fontSize: 9, fill: 'hsl(var(--muted-foreground))' }} stroke="hsl(var(--muted-foreground))" />
+                            <YAxis type="number" dataKey="ldaps" name="LDAPS" tick={{ fontSize: 9, fill: 'hsl(var(--muted-foreground))' }} stroke="hsl(var(--muted-foreground))" />
+                            <Tooltip contentStyle={{ backgroundColor: 'hsl(var(--card))', borderColor: 'hsl(var(--border))', color: 'hsl(var(--foreground))', fontSize: 11 }} />
+                            <Scatter data={scatterAfter} fill="hsl(var(--success))" fillOpacity={0.6} r={3} />
+                          </ScatterChart>
+                        </ResponsiveContainer>
+                        <div className="text-center text-xs text-muted-foreground mt-1">
+                          RMSE: 2.68 · MAE: 2.07
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         </TabsContent>
 
