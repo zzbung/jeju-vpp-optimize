@@ -25,7 +25,6 @@ const AppLayout = ({ children }: {children: React.ReactNode;}) =>
         <header className="h-20 border-b border-border flex items-center px-4 bg-card/50 backdrop-blur-sm sticky top-0 z-10">
           <SidebarTrigger />
           <div className="ml-4 flex items-center gap-3">
-            <img src={komipoLogo} alt="KOMIPO 로고" className="h-16 object-contain" />
             <span className="text-lg font-semibold text-foreground">제주 독립계통 실증</span>
           </div>
         </header>
