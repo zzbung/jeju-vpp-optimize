@@ -21,10 +21,11 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => (
     <div className="min-h-screen flex w-full">
       <AppSidebar />
       <div className="flex-1 flex flex-col">
-        <header className="h-16 border-b border-border flex items-center px-4 bg-card/50 backdrop-blur-sm sticky top-0 z-10">
+        <header className="h-20 border-b border-border flex items-center px-4 bg-card/50 backdrop-blur-sm sticky top-0 z-10">
           <SidebarTrigger />
           <div className="ml-4 flex items-center gap-3">
-            <img src={komipoLogo} alt="KOMIPO" className="h-10 w-auto object-contain" />
+            <img src={komipoLogo} alt="KOMIPO" className="h-14 w-auto object-contain" />
+            <span className="font-semibold text-foreground text-lg">제주 독립계통 실증</span>
           </div>
         </header>
         <main className="flex-1">
