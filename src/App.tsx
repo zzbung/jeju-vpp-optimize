@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
+import komipoLogo from "@/assets/komipo-logo.png";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
@@ -20,11 +21,11 @@ const AppLayout = ({ children }: {children: React.ReactNode;}) =>
     <div className="min-h-screen flex w-full">
       <AppSidebar />
       <div className="flex-1 flex flex-col">
-        <header className="h-14 border-b border-border flex items-center px-4 bg-card/50 backdrop-blur-sm sticky top-0 z-10">
+        <header className="h-20 border-b border-border flex items-center px-4 bg-card/50 backdrop-blur-sm sticky top-0 z-10">
           <SidebarTrigger />
-          <div className="ml-4 flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg bg-gradient-primary" />
-            
+          <div className="ml-4 flex items-center gap-3">
+            <img src={komipoLogo} alt="KOMIPO 로고" className="h-16 object-contain" />
+            <span className="text-lg font-semibold text-foreground">제주 독립계통 실증</span>
           </div>
         </header>
         <main className="flex-1">
