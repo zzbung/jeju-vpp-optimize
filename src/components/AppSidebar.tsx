@@ -16,7 +16,7 @@ import {
 const menuItems = [
   { title: "대시보드", url: "/", icon: LayoutDashboard },
   { title: "SMP 예측", url: "/smp-forecast", icon: TrendingUp },
-  { title: "RTS 예측", url: "/rts-forecast", icon: Zap },
+  { title: "최대출력 예측", url: "/max-output-forecast", icon: Zap },
   { title: "입찰 관리", url: "/bidding", icon: FileText },
   { title: "설정", url: "/settings", icon: Settings },
 ];
