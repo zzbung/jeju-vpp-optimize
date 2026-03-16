@@ -13,6 +13,7 @@ import SMPForecast from "./pages/SMPForecast";
 import RTSForecast from "./pages/RTSForecast";
 import Bidding from "./pages/Bidding";
 import Settings from "./pages/Settings";
+import MaxOutputForecast from "./pages/MaxOutputForecast";
 
 const queryClient = new QueryClient();
 
