@@ -1,7 +1,7 @@
 import { Activity, TrendingUp, Zap, DollarSign } from "lucide-react";
 import { StatsCard } from "@/components/dashboard/StatsCard";
 import { SMPForecastChart } from "@/components/dashboard/SMPForecastChart";
-import { RTSTimeline } from "@/components/dashboard/RTSTimeline";
+import { MaxOutputTimeline } from "@/components/dashboard/MaxOutputTimeline";
 import { ESSStatus } from "@/components/dashboard/ESSStatus";
 import { BiddingStatus } from "@/components/dashboard/BiddingStatus";
 
